@@ -1,6 +1,8 @@
 # http://www.github.com/oomushi/jquery.collapse.js
 $.fn.collapse = (params) ->
-  params = close: false  if params is `undefined`
+  defaultStart = "first"
+  params = {}  if params is `undefined`
+  params.start = defaultStart  if params.start is `undefined`
   @each ->
     $(this).find("legend").not("fieldset fieldset fieldset legend,.collapsed,.collapsible").click(->
       $(this).parent().removeClass("collapsed").addClass "collapsible"  if $(this).parent().hasClass("collapsed")
@@ -16,7 +18,11 @@ $.fn.collapse = (params) ->
 
       return
     ).addClass("collapsible").parent().addClass "collapsible"
-    $(this).find("legend").click()  if params.close
-    return
-
+    switch params.start
+      when "close"
+        $(this).find("legend").click()
+      when "first"
+        $(this).find("legend").each (index) ->
+          $(this).click()  if index > 0
+          return
 

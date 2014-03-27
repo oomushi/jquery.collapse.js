@@ -1,10 +1,10 @@
 // http://www.github.com/oomushi/jquery.collapse.js
 $.fn.collapse = function(params) {
-  if(params==undefined){
-    params={
-      close: false
-    };
-  }
+  var defaultStart='first';
+  if(params==undefined)
+    params={};
+  if(params.start==undefined)
+    params.start=defaultStart;
   return this.each(function() {
     $(this).find("legend").not("fieldset fieldset fieldset legend,.collapsed,.collapsible").click(function() {
       if ($(this).parent().hasClass('collapsed'))
@@ -17,7 +17,17 @@ $.fn.collapse = function(params) {
           $(this).parent().addClass('collapsed').children('legend').addClass('collapsed');
       });
     }).addClass('collapsible').parent().addClass('collapsible');
-    if(params.close) $(this).find("legend").click();
+    switch(params.start){
+      case 'close':
+        $(this).find("legend").click();
+        break;
+      case 'first':
+        $(this).find("legend").each(function(index){
+          if(index>0)
+            $(this).click();
+        });
+        break;
+    }
   });
 };
 
