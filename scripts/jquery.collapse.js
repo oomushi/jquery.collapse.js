@@ -2,17 +2,6 @@
 (function($) {
   $.fn.extend({
     collapse: function(customOptions) {
-      var click=function(e) {
-        if ($(this).parent().hasClass('collapsed'))
-          $(this).parent().removeClass('collapsed').addClass('collapsible');
-        $(this).removeClass('collapsed');
-        $(this).parent().children().not('legend').not('[type="radio"]').slideToggle( "slow" , function() {
-          if ($(this).is(":visible"))
-            $(this).parent().find("legend").addClass('collapsible');
-          else
-            $(this).parent().addClass('collapsed').children('legend').addClass('collapsed');
-        });
-      };
       if(typeof customOptions == 'string'){
         switch(customOptions){
           case 'destroy':
@@ -28,7 +17,17 @@
         };
         $.extend(options, customOptions);
         return this.each(function() {
-          $(this).find("legend").not("fieldset fieldset fieldset legend,.collapsed,.collapsible").bind('click.collapse',click).addClass('collapsible').parent().addClass('collapsible');
+          $(this).find("legend").not("fieldset fieldset fieldset legend,.collapsed,.collapsible").bind('click.collapse',function(e) {
+            if ($(this).parent().hasClass('collapsed'))
+              $(this).parent().removeClass('collapsed').addClass('collapsible');
+            $(this).removeClass('collapsed');
+            $(this).parent().children().not('legend').not('[type="radio"]').slideToggle( "slow" , function() {
+              if ($(this).is(":visible"))
+                $(this).parent().find("legend").addClass('collapsible');
+              else
+                $(this).parent().addClass('collapsed').children('legend').addClass('collapsed');
+            });
+          }).addClass('collapsible').parent().addClass('collapsible');
           switch(params.start){
             case 'close':
               $(this).find("legend").click();
