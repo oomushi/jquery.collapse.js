@@ -28,7 +28,7 @@
                 $(this).parent().addClass('collapsed').children('legend').addClass('collapsed');
             });
           }).addClass('collapsible').parent().addClass('collapsible');
-          switch(params.start){
+          switch(options.start){
             case 'close':
               $(this).find("legend").click();
               break;
