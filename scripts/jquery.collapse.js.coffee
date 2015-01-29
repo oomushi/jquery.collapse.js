@@ -24,7 +24,7 @@
             true
           true
         ).addClass("collapsible").parent().addClass "collapsible"
-        switch params.start
+        switch options.start
           when "close"
             $(this).find("legend").click()
           when "first"
