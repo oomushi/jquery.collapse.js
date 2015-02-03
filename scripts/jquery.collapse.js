@@ -6,9 +6,9 @@
         switch(customOptions){
           case 'destroy':
             return this.each(function(){
-              $(this).find('legend').unbind('click.collapse');
-              $(this).parent().find(".collapsed,.collapsible").removeClass("collapsible").removeClass("collapsed");
-              $(this).children().not('legend').not('[type="radio"]').show();
+              $(this).children(".collapsed,.collapsible").removeClass("collapsible").removeClass("collapsed")
+                     .children('legend').unbind('click.collapse')
+                     .siblings('.collapse-hidden').removeClass('collapse-hidden').show();
             });
         }
       }else{
@@ -23,17 +23,10 @@
         return this.each(function() {
           $(this).children("fieldset").children('legend').not(".collapsed,.collapsible").bind('click.collapse',function(e) {
             $(this).trigger('collapsebeforeclick',$(this).parent('.collapsible'));
-            if ($(this).parent().hasClass('collapsed'))
-              $(this).parent().removeClass('collapsed').addClass('collapsible');
-            $(this).removeClass('collapsed');
-            $(this).parent().children().not('legend').slideToggle( options.animation , function() {
-              if ($(this).is(":visible"))
-                $(this).parent().find("legend").addClass('collapsible');
-              else
-                $(this).parent().addClass('collapsed').children('legend').addClass('collapsed');
-            });
+            $(this).siblings().toggleClass("collapse-hidden").slideToggle(options.animation);
+            $(this).parent().toggleClass('collapsed');
             $(this).trigger('collapseafterclick',$(this).parent('.collapsible'));
-          }).addClass('collapsible').parent().addClass('collapsible');
+          }).parent().addClass('collapsible');
           switch(options.start){
             case 'close':
               $(this).find("legend").click();
