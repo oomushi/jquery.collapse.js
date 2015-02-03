@@ -13,11 +13,15 @@
         }
       }else{
         var options={
-          start: 'first'
+          start: 'first',
+          create: function(event, element){},
+          beforeClick: function(event, element){},
+          afterClick: function(event, element){}
         };
         $.extend(options, customOptions);
         return this.each(function() {
           $(this).find("legend").not("fieldset fieldset fieldset legend,.collapsed,.collapsible").bind('click.collapse',function(e) {
+            $(this).trigger('collapsebeforeclick',$(this).parent('.collapsible'));
             if ($(this).parent().hasClass('collapsed'))
               $(this).parent().removeClass('collapsed').addClass('collapsible');
             $(this).removeClass('collapsed');
@@ -27,6 +31,7 @@
               else
                 $(this).parent().addClass('collapsed').children('legend').addClass('collapsed');
             });
+            $(this).trigger('collapseafterclick',$(this).parent('.collapsible'));
           }).addClass('collapsible').parent().addClass('collapsible');
           switch(options.start){
             case 'close':
@@ -39,6 +44,10 @@
               });
               break;
           }
+          $(this).on("collapsecreate",options.create);
+          $(this).on("collapsebeforeclick",options.beforeClick);
+          $(this).on("collapseafterclick",options.afterClick);
+          $(this).trigger('collapsecreate',$(this));
         });
       }
     }
