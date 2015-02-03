@@ -6,9 +6,7 @@
       switch customOptions
         when 'destroy'
           return @each(->
-            $(this).find('legend').unbind 'click.collapse'
-            $(this).parent().find('.collapsed,.collapsible').removeClass('collapsible').removeClass 'collapsed'
-            $(this).children().not('legend').not('[type="radio"]').show()
+            $(this).children('.collapsed,.collapsible').removeClass('collapsible').removeClass('collapsed').children('legend').unbind('click.collapse').siblings('.collapse-hidden').removeClass('collapse-hidden').show()
             return
           )
     else
@@ -20,20 +18,13 @@
         afterClick: (event, element) ->
       $.extend options, customOptions
       return @each(->
-        $(this).find('legend').not('fieldset fieldset fieldset legend,.collapsed,.collapsible').bind('click.collapse', (e) ->
+        $(this).children('fieldset').children('legend').not('.collapsed,.collapsible').bind('click.collapse', (e) ->
           $(this).trigger 'collapsebeforeclick', $(this).parent('.collapsible')
-          if $(this).parent().hasClass('collapsed')
-            $(this).parent().removeClass('collapsed').addClass 'collapsible'
-          $(this).removeClass 'collapsed'
-          $(this).parent().children().not('legend').not('[type="radio"]').slideToggle options.animation, ->
-            if $(this).is(':visible')
-              $(this).parent().find('legend').addClass 'collapsible'
-            else
-              $(this).parent().addClass('collapsed').children('legend').addClass 'collapsed'
-            return
+          $(this).siblings().toggleClass('collapse-hidden').slideToggle options.animation
+          $(this).parent().toggleClass 'collapsed'
           $(this).trigger 'collapseafterclick', $(this).parent('.collapsible')
           return
-        ).addClass('collapsible').parent().addClass 'collapsible'
+        ).parent().addClass 'collapsible'
         switch options.start
           when 'close'
             $(this).find('legend').click()
@@ -51,4 +42,3 @@
     return
   return
 ) jQuery
-
