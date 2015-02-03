@@ -21,12 +21,12 @@
         };
         $.extend(options, customOptions);
         return this.each(function() {
-          $(this).find("legend").not("fieldset fieldset fieldset legend,.collapsed,.collapsible").bind('click.collapse',function(e) {
+          $(this).children("fieldset").children('legend').not(".collapsed,.collapsible").bind('click.collapse',function(e) {
             $(this).trigger('collapsebeforeclick',$(this).parent('.collapsible'));
             if ($(this).parent().hasClass('collapsed'))
               $(this).parent().removeClass('collapsed').addClass('collapsible');
             $(this).removeClass('collapsed');
-            $(this).parent().children().not('legend').not('[type="radio"]').slideToggle( options.animation , function() {
+            $(this).parent().children().not('legend').slideToggle( options.animation , function() {
               if ($(this).is(":visible"))
                 $(this).parent().find("legend").addClass('collapsible');
               else
