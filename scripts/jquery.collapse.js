@@ -13,6 +13,7 @@
         }
       }else{
         var options={
+          animation: 'slow',
           start: 'first',
           create: function(event, element){},
           beforeClick: function(event, element){},
@@ -25,7 +26,7 @@
             if ($(this).parent().hasClass('collapsed'))
               $(this).parent().removeClass('collapsed').addClass('collapsible');
             $(this).removeClass('collapsed');
-            $(this).parent().children().not('legend').not('[type="radio"]').slideToggle( "slow" , function() {
+            $(this).parent().children().not('legend').not('[type="radio"]').slideToggle( options.animation , function() {
               if ($(this).is(":visible"))
                 $(this).parent().find("legend").addClass('collapsible');
               else
